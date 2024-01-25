@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wathaker_application/constants.dart';
 import 'package:wathaker_application/models/data.dart.dart';
 import 'package:wathaker_application/models/datasets.dart';
 import 'package:wathaker_application/screens/Duas/duas_screen_body.dart';
+import 'package:wathaker_application/widgets/text_size.dart';
 
-class Athkar extends StatelessWidget {
+class Athkar extends StatefulWidget {
   Athkar({
     Key? key,
     this.id,
@@ -13,51 +15,19 @@ class Athkar extends StatelessWidget {
 
   final int? id;
   final Duaa dua;
-  int? textSize = 15;
+
+  @override
+  State<Athkar> createState() => _AthkarState();
+}
+
+class _AthkarState extends State<Athkar> {
   @override
   Widget build(BuildContext context) {
     // Filter the dua list based on the provided id
     final filteredDua = DataSet.dua
-        .where((element) => element.id?.contains(id?.toString() ?? "") ?? false)
+        .where((element) =>
+            element.id?.contains(widget.id?.toString() ?? "") ?? false)
         .toList();
-
-    Future openDialog() => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Center(
-              child: Text("تغيير حجم الخط"),
-            ),
-            content: TextField(
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                // hintText: "التلقائي = 15",
-                labelStyle: TextStyle(fontSize: 9),
-              ),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.add_circle,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text("1"),
-                      ),
-                      Icon(
-                        Icons.remove_circle,
-                      ),
-                    ],
-                  ),
-                  Text('حفظ'),
-                ],
-              ),
-            ],
-          ),
-        );
 
     return Scaffold(
       body: Container(
@@ -91,7 +61,11 @@ class Athkar extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        openDialog();
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return MyDialog();
+                            });
                       },
                       icon: Icon(
                         Icons.format_size_rounded,
@@ -108,7 +82,7 @@ class Athkar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "${dua.name}",
+                      "${widget.dua.name}",
                       style: TextStyle(
                         fontFamily: 'IBM Plex Sans Arabic',
                         fontWeight: FontWeight.bold,
@@ -129,7 +103,8 @@ class Athkar extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return DuasScreenBody(
                         id: filteredDua[index],
-                        inde: id,
+                        inde: widget.id,
+                        size: MyDialog.textSize,
                       );
                     },
                   ),

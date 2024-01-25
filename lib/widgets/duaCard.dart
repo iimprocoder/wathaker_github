@@ -4,8 +4,11 @@ import 'package:wathaker_application/models/data.dart.dart';
 import 'package:wathaker_application/screens/Duas/athkar.dart';
 
 class DuaCard extends StatelessWidget {
-  const DuaCard({Key? key, required this.indexItem, required this.dua})
-      : super(key: key);
+  const DuaCard({
+    Key? key,
+    required this.indexItem,
+    required this.dua,
+  }) : super(key: key);
 
   final int indexItem;
   final Duaa dua;

@@ -3,6 +3,7 @@ import 'package:wathaker_application/constants.dart';
 import 'package:wathaker_application/models/datasets.dart';
 import 'package:wathaker_application/widgets/duaCard.dart';
 import 'package:wathaker_application/widgets/nav_bar.dart';
+import 'package:wathaker_application/widgets/text_size.dart';
 
 class DuasScreen extends StatefulWidget {
   const DuasScreen({super.key});

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wathaker_application/constants.dart';
+import 'package:wathaker_application/models/date_time/date_tims.dart';
 import 'package:wathaker_application/glossary.dart';
 import 'package:wathaker_application/models/json_connection.dart';
-import 'package:wathaker_application/models/prayer_data.dart';
 import 'package:wathaker_application/widgets/nav_bar.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,36 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  // Problem from here
   JsonConnection jsonConnection = new JsonConnection(); // ../models/json
-  Data? list;
+  DateTims? list;
   static DateTime time = DateTime.now();
-
-  static String city = 'Riyadh';
-  static String country = 'Saudi Arabia';
-  static int method = 4;
-
-  final String url =
-      'http://api.aladhan.com/v1/timingsByCity?city=$city&country=$country&method=$method';
-
-  Future getPTData() async {
-    http.Response res = await http.get(Uri.parse(url), headers: {
-      "Accept":
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
-    });
-    final data = jsonDecode(res.body);
-
-    list = Data.fromJson(data);
-
-    return list;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,18 +29,10 @@ class _HomePageState extends State<HomePage> {
 
   FutureBuilder backgroundGradient() {
     return FutureBuilder(
-        future: jsonConnection
-            .getPTLocation(), // if you want it to work, change it to getPTData()
-        builder: (context, snapshot) {
+        future: jsonConnection.getPTLocation(),
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            // to here
+            var data = snapshot.data;
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -211,11 +173,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                salah(list?.data.timings.fajr, "الفجر"),
-                                salah(list?.data.timings.dhuhr, "الظهر"),
-                                salah(list?.data.timings.asr, "العصر"),
-                                salah(list?.data.timings.maghrib, "المغرب"),
-                                salah(list?.data.timings.isha, "العشاء"),
+                                salah(data?.data!.timings!.fajr, "الفجر"),
+                                salah(data?.data!.timings!.dhuhr, "الظهر"),
+                                salah(data?.data!.timings!.asr, "العصر"),
+                                salah(data?.data!.timings!.maghrib, "المغرب"),
+                                salah(data?.data!.timings!.isha, "العشاء"),
                               ],
                             ),
                           ],
